@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poonam's Art World | The Masterclass</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cinzel:wght@400;700&family=Pinyon+Script&family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 0. LUXURY VARIABLES --- */
+        :root {
+            --c-void: #1a0515;
+            --c-gold: #D4AF37;
+            --c-gold-dim: #8a7022;
+            --c-magenta: #b00b69;
+            --c-paper: #fdfbf7;
+            --c-glass: rgba(255, 255, 255, 0.03);
+            --c-glass-border: rgba(255, 255, 255, 0.1);
+            
+            /* Font Stack */
+            --font-display: 'Cinzel', serif;       
+            --font-script: 'Pinyon Script', cursive; 
+            --font-sub: 'Italiana', serif;         
+            --font-body: 'Montserrat', sans-serif; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--c-void); }
+        ::-webkit-scrollbar-thumb { background: var(--c-gold); border-radius: 4px; }
+
+        body {
+            background-color: var(--c-void);
+            color: var(--c-paper);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        /* --- 1. BACKGROUND FX --- */
+        .liquid-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -2; overflow: hidden; background: var(--c-void);
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.4;
+            will-change: transform; animation: floatBlob 20s infinite alternate ease-in-out;
+        }
+        .b1 { width: 50vw; height: 50vw; background: var(--c-magenta); top: -10%; left: -10%; }
+        .b2 { width: 40vw; height: 40vw; background: #ff6b6b; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .b3 { width: 30vw; height: 30vw; background: var(--c-gold); top: 40%; left: 40%; opacity: 0.2; animation-delay: -10s; }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05; z-index: -1; pointer-events: none;
+        }
+
+        /* --- 2. STICKY NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000;
+            background: rgba(26, 5, 21, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--c-glass-border);
+        }
+        .nav-brand { font-family: var(--font-sub); font-size: 1.2rem; color: var(--c-gold); letter-spacing: 2px; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            text-decoration: none; color: white; font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 1px; transition: 0.3s; position: relative;
+        }
+        .nav-links a:hover { color: var(--c-gold); }
+        .nav-cta {
+            padding: 10px 25px; border: 1px solid var(--c-gold); color: var(--c-gold);
+            text-transform: uppercase; font-size: 0.8rem; text-decoration: none;
+            transition: 0.3s; letter-spacing: 1px;
+        }
+        .nav-cta:hover { background: var(--c-gold); color: black; }
+        
+        @media(max-width: 768px) { .nav-links { display: none; } }
+
+        /* --- 3. HERO TYPOGRAPHY --- */
+        header {
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; position: relative; padding-top: 80px;
+        }
+        
+        .hero-container { z-index: 10; }
+
+        .hero-script {
+            font-family: var(--font-script);
+            font-size: clamp(4rem, 12vw, 9rem);
+            color: var(--c-gold);
+            line-height: 0.8;
+            display: block;
+            /* No tilt */
+            animation: fadeUp 1.5s ease-out;
+        }
+
+        .hero-and {
+            font-family: var(--font-sub);
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            margin: 15px 0;
+            font-style: italic;
+            letter-spacing: 2px;
+            animation: fadeUp 1.5s ease-out 0.2s backwards;
+        }
+
+        .hero-display {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            color: white;
+            line-height: 0.9;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: fadeUp 1.5s ease-out 0.4s backwards;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-sub {
+            font-family: var(--font-sub);
+            font-size: 1.2rem;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-top: 40px;
+            color: rgba(255,255,255,0.8);
+            animation: fadeUp 1.5s ease-out 0.6s backwards;
+        }
+        
+        .stroke-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; opacity: 0.4; }
+        path.draw { stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: drawLine 4s ease-out forwards 1s; }
+        @keyframes drawLine { to { stroke-dashoffset: 0; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- 4. SNAPSHOT --- */
+        .snapshot-bar {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            border-top: 1px solid var(--c-glass-border); border-bottom: 1px solid var(--c-glass-border);
+            background: rgba(255,255,255,0.02); backdrop-filter: blur(10px);
+        }
+        .stat-box {
+            padding: 40px 20px; text-align: center; border-right: 1px solid var(--c-glass-border);
+            transition: 0.3s;
+        }
+        .stat-box:hover { background: rgba(212, 175, 55, 0.1); }
+        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; margin-bottom: 10px; }
+        .stat-value { font-family: var(--font-sub); font-size: 1.5rem; color: var(--c-gold); }
+
+        /* --- 5. GENERAL SECTION --- */
+        .section { padding: 120px 5%; position: relative; max-width: 1400px; margin: 0 auto; }
+        .section-head { margin-bottom: 80px; text-align: center; }
+        .section-title { font-family: var(--font-display); font-size: 3.5rem; color: white; margin-bottom: 20px; }
+        
+        /* --- 6. APPLE/VOGUE SYLLABUS ANIMATION --- */
+        .syllabus-wrapper {
+            display: flex; flex-direction: column; gap: 100px;
+        }
+
+        .art-card {
+            position: relative;
+            width: 100%;
+            min-height: 400px;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 40px;
+            overflow: hidden;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 60px;
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            opacity: 0;
+        }
+        
+        .art-card::before {
+            content: attr(data-index);
+            position: absolute;
+            font-family: var(--font-sub);
+            font-size: 25rem;
+            color: rgba(255,255,255,0.03);
+            z-index: 0;
+            line-height: 1;
+            top: 50%; transform: translateY(-50%);
+        }
+        
+        .art-card.left { transform: translateX(-100px); }
+        .art-card.left::before { right: -50px; }
+        
+        .art-card.right {
+            flex-direction: row-reverse;
+            transform: translateX(100px);
+            text-align: right;
+        }
+        .art-card.right::before { left: -50px; }
+        .art-card.right .card-content ul li { justify-content: flex-end; }
+
+        .card-content { position: relative; z-index: 2; max-width: 600px; }
+        .card-tag { 
+            text-transform: uppercase; letter-spacing: 4px; color: var(--c-gold); 
+            font-size: 0.9rem; margin-bottom: 20px; display: block;
+        }
+        .card-heading {
+            font-family: var(--font-display); font-size: 3rem; margin-bottom: 30px;
+            background: linear-gradient(to right, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .card-list { list-style: none; }
+        .card-list li {
+            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.2rem; opacity: 0.9; display: flex; gap: 15px; align-items: center;
+        }
+        .card-list li i { color: var(--c-gold); font-size: 0.8rem; }
+
+        .art-card.active { opacity: 1; transform: translateX(0); }
+        .art-card:hover { border-color: var(--c-gold); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+
+        /* --- 7. WHO IS THIS FOR --- */
+        .split-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .glass-card {
+            background: var(--c-glass); border: 1px solid var(--c-glass-border);
+            padding: 50px; position: relative; transition: 0.4s;
+        }
+        .glass-card:hover { border-color: var(--c-gold); transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .check-list li {
+            list-style: none; margin-bottom: 20px; font-size: 1.1rem; display: flex; gap: 15px;
+        }
+        .check-list i { color: var(--c-gold); }
+
+        /* --- 8. INSTRUCTOR --- */
+        .instructor-frame {
+            border: 1px solid var(--c-gold); padding: 20px; display: inline-block;
+            transform: rotate(3deg); transition: 0.5s;
+        }
+        .instructor-frame:hover { transform: rotate(0deg); }
+        .instructor-img {
+            width: 100%; max-width: 400px; height: 500px; object-fit: cover; filter: sepia(10%);
+        }
+        .bio-text { font-size: 1.1rem; line-height: 1.8; opacity: 0.9; margin-top: 30px; }
+
+        /* --- 9. TESTIMONIALS --- */
+        .testimonial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .quote-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+            padding: 40px; border-left: 3px solid var(--c-gold); font-style: italic;
+        }
+        .quote-author { font-family: var(--font-sub); margin-top: 20px; color: var(--c-gold); text-align: right; display: block; }
+
+        /* --- 10. FAQ --- */
+        details {
+            margin-bottom: 20px; border-bottom: 1px solid var(--c-glass-border); padding-bottom: 20px;
+        }
+        summary {
+            font-size: 1.3rem; cursor: pointer; list-style: none; display: flex; justify-content: space-between;
+            font-family: var(--font-sub); transition: 0.3s;
+        }
+        summary:hover { color: var(--c-gold); }
+        summary::after { content: '+'; font-weight: bold; }
+        details[open] summary::after { content: '-'; }
+        details p { margin-top: 15px; opacity: 0.8; line-height: 1.6; }
+
+        /* --- 11. REGISTER & FOOTER --- */
+        .urgency-badge {
+            background: var(--c-magenta); color: white; padding: 5px 15px; font-size: 0.8rem;
+            text-transform: uppercase; display: inline-block; margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+
+        .reg-input {
+            width: 100%; background: transparent; border: none; border-bottom: 2px solid rgba(255,255,255,0.3);
+            color: white; font-family: var(--font-sub); font-size: 2rem; padding: 15px 0; margin-bottom: 40px;
+        }
+        .reg-input:focus { outline: none; border-color: var(--c-gold); }
+
+        .submit-btn {
+            width: 100%; padding: 25px; background: transparent; border: 1px solid var(--c-gold);
+            color: var(--c-gold); font-family: var(--font-display); font-size: 1.5rem; transition: 0.4s; cursor: pointer;
+        }
+        .submit-btn:hover { background: var(--c-gold); color: black; letter-spacing: 3px; }
+
+        footer {
+            border-top: 1px solid var(--c-glass-border); padding: 80px 5%;
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;
+            background: rgba(0,0,0,0.3); font-size: 0.9rem; opacity: 0.7;
+        }
+        .footer-col h4 { color: var(--c-gold); margin-bottom: 20px; font-family: var(--font-sub); }
+        .footer-col a { color: white; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; }
+        .footer-col a:hover { color: var(--c-gold); padding-left: 5px; }
+
+        /* General Scroll Reveal */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* =========================================
+           MOBILE OPTIMIZATION
+        ========================================= */
+        @media(max-width: 768px) {
+            .section { padding: 60px 5%; }
+            header { padding-top: 120px; }
+            .split-layout { grid-template-columns: 1fr; gap: 40px; }
+            .hero-script { font-size: 4rem; }
+            .hero-display { font-size: 3rem; line-height: 1.2; }
+            .hero-and { margin: 5px 0; font-size: 1.2rem; }
+            .hero-sub { font-size: 0.9rem; letter-spacing: 4px; margin-top: 20px; }
+            .nav-links { display: none; }
+            .nav-brand { font-size: 1rem; }
+            .nav-cta { padding: 8px 15px; font-size: 0.7rem; }
+            .syllabus-wrapper { gap: 40px; }
+            .art-card { flex-direction: column; padding: 40px 20px; text-align: center; min-height: auto; }
+            .art-card.left, .art-card.right { transform: none !important; }
+            .art-card.right { flex-direction: column; }
+            .art-card::before { font-size: 12rem; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; }
+            .art-card.left::before, .art-card.right::before { right: auto; left: 50%; }
+            .art-card.right .card-content ul li { justify-content: center; }
+            .card-list li { justify-content: center; font-size: 1rem; }
+            .card-heading { font-size: 2rem; }
+            .instructor-frame { transform: none; width: 100%; max-width: 300px; }
+            .instructor-frame:hover { transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="liquid-bg"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+    <div class="noise-overlay"></div>
+
+    <nav>
+        <div class="nav-brand">POONAM'S ART WORLD</div>
+        <div class="nav-links">
+            <a href="#snapshot">Overview</a>
+            <a href="#syllabus">Curriculum</a>
+            <a href="#instructor">The Artist</a>
+            <a href="#faq">FAQ</a>
+        </div>
+        <a href="#register" class="nav-cta">Register</a>
+    </nav>
+
+    <header>
+        <svg class="stroke-container" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <path class="draw" d="M0,500 Q250,200 500,500 T1000,500" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.5" />
+        </svg>
+        
+        <div class="hero-container">
+            <span class="hero-script">Calligraphy</span>
+            <span class="hero-and">and</span>
+            <span class="hero-display">Mandala</span>
+            <div class="hero-sub">ART MASTERCLASS</div>
+            
+            <div style="margin-top: 50px; opacity: 0; animation: fadeUp 1s forwards 1.5s;">
+                <a href="#register" style="border-bottom: 1px solid var(--c-gold); color: white; text-decoration: none; padding-bottom: 5px; letter-spacing: 2px; font-family: var(--font-sub);">SECURE YOUR SEAT</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="snapshot" class="snapshot-bar">
+        <div class="stat-box">
+            <div class="stat-label">Format</div>
+            <div class="stat-value">Face-to-Face</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Duration</div>
+            <div class="stat-value">2 Days</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Location</div>
+            <div class="stat-value">Al Mankhool, Bur Dubai</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Cost</div>
+            <div class="stat-value">100% Free</div>
+        </div>
+    </div>
+
+    <section class="section reveal">
+        <div class="split-layout">
+            <div>
+                <h2 class="section-title">The Experience</h2>
+                <p style="margin-bottom: 30px; line-height: 1.8; opacity: 0.8;">An immersive in-person workshop designed to disconnect you from screens and reconnect you with creativity. Feel the paper texture, smell the ink, and learn in a collaborative physical space.</p>
+                <div class="glass-card">
+                    <ul class="check-list">
+                        <li><i class="fas fa-check"></i> Perfect for complete beginners</li>
+                        <li><i class="fas fa-check"></i> Hands-on guidance from Poonam</li>
+                        <li><i class="fas fa-check"></i> All materials explained in class</li>
+                        <li><i class="fas fa-users"></i> Meet fellow local artists</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="height: 400px; background: radial-gradient(circle, var(--c-gold-dim), transparent); border-radius: 50%; filter: blur(40px); opacity: 0.3;"></div>
+        </div>
+    </section>
+
+    <section id="syllabus" class="section">
+        <div class="section-head">
+            <h2 class="section-title">The Syllabus</h2>
+        </div>
+        
+        <div class="syllabus-wrapper">
+            
+            <div class="art-card left reveal" data-index="01">
+                <div class="card-content">
+                    <span class="card-tag">Day One</span>
+                    <h3 class="card-heading">Awakening</h3>
+                    <ul class="card-list">
+                        <li><i class="fas fa-circle"></i> Anatomy of the Brush Pen</li>
+                        <li><i class="fas fa-circle"></i> The Physics of Pressure</li>
+                        <li><i class="fas fa-circle"></i> Sacred Geometry Grids</li>
+                        <li style="color:var(--c-gold); border:none;"><i class="fas fa-star"></i> Project: Name Art Composition</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="art-card right reveal" data-index="02">
+                <div class="card-content">
+                    <span class="card-tag">Day Two</span>
+                    <h3 class="card-heading">Ascension</h3>
+                    <ul class="card-list">
+                        <li><i class="fas fa-circle"></i> Flourishing & Ornamentation</li>
+                        <li><i class="fas fa-circle"></i> Complex Radial Symmetry</li>
+                        <li><i class="fas fa-circle"></i> Fusion: Text Meets Mandala</li>
+                        <li style="color:var(--c-gold); border:none;"><i class="fas fa-star"></i> Project: The Masterpiece</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="instructor" class="section reveal">
+        <div class="split-layout">
+            <div style="text-align: center;">
+                <div class="instructor-frame">
+                    <img src="poonam.jpeg" class="instructor-img" alt="Poonam">
+                </div>
+            </div>
+            <div>
+                <h2 class="section-title">Meet Poonam</h2>
+                <h3 style="font-family: var(--font-script); font-size: 2.5rem; color: var(--c-gold);">Artist & Mentor</h3>
+                <p class="bio-text">
+                    With a passion for strokes and symmetry, Poonam has transformed the complex arts of Calligraphy and Mandala into an accessible, meditative practice. Join her for this exclusive in-person masterclass to learn the secrets of the trade.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section reveal">
+        <div class="section-head">
+            <h2 class="section-title">Student Voices</h2>
+        </div>
+        <div class="testimonial-grid">
+            <div class="quote-card">
+                "I never thought I could draw. This workshop changed my perspective entirely."
+                <span class="quote-author">- Sarah J.</span>
+            </div>
+            <div class="quote-card">
+                "The perfect blend of relaxation and skill-building. Highly recommended."
+                <span class="quote-author">- Rahul M.</span>
+            </div>
+            <div class="quote-card">
+                "Poonam's teaching style is so patient and clear. Loved every minute."
+                <span class="quote-author">- Anita K.</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="section reveal" style="max-width: 800px;">
+        <div class="section-head"><h2 class="section-title">FAQ</h2></div>
+        
+        <details>
+            <summary>Where is the venue?</summary>
+            <p>The workshop will be held at Al Mankhool, Bur Dubai. Full details will be emailed to you upon registration.</p>
+        </details>
+        <details>
+            <summary>Do I need to bring materials?</summary>
+            <p>No! All pens, paper, and practice sheets are provided at the venue for free.</p>
+        </details>
+        <details>
+            <summary>Is it really free?</summary>
+            <p>Yes, this 2-day in-person masterclass is 100% free. Seats are strictly limited due to venue capacity.</p>
+        </details>
+        <details>
+            <summary>I have bad handwriting, can I join?</summary>
+            <p>Absolutely. Calligraphy is about drawing shapes, not handwriting. We start from the very basics.</p>
+        </details>
+    </section>
+
+    <section id="register" class="section reveal" style="text-align: center; min-height: 80vh; display: flex; flex-direction: column; justify-content: center;">
+        <div class="urgency-badge">Limited Venue Capacity</div>
+        <h2 class="section-title">Secure Your Seat</h2>
+        
+        <form id="workshopForm" style="max-width: 600px; margin: 0 auto; width: 100%;">
+            <input type="text" name="name" class="reg-input" placeholder="Your Full Name" required>
+            <input type="tel" name="phone" class="reg-input" placeholder="Your Phone Number" required>
+            <input type="email" name="email" class="reg-input" placeholder="Your Email Address" required>
+            <button type="submit" class="submit-btn">CONFIRM ATTENDANCE</button>
+        </form>
+        <div id="statusMessage" style="margin-top: 30px; font-family: var(--font-sub); color: var(--c-gold);"></div>
+    </section>
+
+    <footer>
+        <div class="footer-col">
+            <h4>POONAM'S ART WORLD</h4>
+            <p>Elevating creativity, one stroke at a time.</p>
+            <p style="margin-top: 10px; color: var(--c-gold);">Location: Al Mankhool, Bur Dubai</p>
+        </div>
+        <div class="footer-col">
+            <h4>Explore</h4>
+            <a href="#snapshot">Overview</a>
+            <a href="#syllabus">Curriculum</a>
+            <a href="#instructor">The Artist</a>
+        </div>
+        <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="https://instagram.com/YOUR_USERNAME" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://wa.me/971500000000" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:hello@poonamsart.com">Email Us</a>
+        </div>
+        <div style="width: 100%; margin-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center;">
+            &copy; 2025 Poonam's Art World. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Reveal Logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15 }); 
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // GOOGLE SHEET LOGIC
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCPmZAw3ciqbibhmjqbhDAhwUIxwZWpRrvTFtQd6LG3aOMnbRvTVL-shpRrpyu8AQd/exec"; 
+
+        const form = document.getElementById('workshopForm');
+        const statusMsg = document.getElementById('statusMessage');
+        const submitBtn = form.querySelector('button');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            if(SCRIPT_URL.includes("PASTE_YOUR")) { alert("Missing Google Script URL."); return; }
+            submitBtn.innerHTML = "PROCESSING..."; submitBtn.style.opacity = "0.7";
+            
+            const formData = new FormData(form);
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: new URLSearchParams(formData) })
+            .then(() => {
+                statusMsg.innerText = "SEAT CONFIRMED. CHECK YOUR EMAIL.";
+                statusMsg.style.color = "#D4AF37";
+                form.reset(); submitBtn.innerHTML = "WELCOME"; submitBtn.style.background = "#D4AF37"; submitBtn.style.color = "black";
+            })
+            .catch(err => {
+                statusMsg.innerText = "ERROR. PLEASE RETRY.";
+                submitBtn.innerHTML = "RETRY";
+            });
+        });
+    </script>
+</body>
+</html>
